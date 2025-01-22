@@ -29,19 +29,19 @@ function logMessage() {
   const randomSeverity = Math.random();
   let selectedSeverity;
 
-  if (randomSeverity < 0.5) {
+  if (randomSeverity < 0.2) {
     selectedSeverity = severities[0]; // Debug
-  } else if (randomSeverity < 0.7) {
+  } else if (randomSeverity < 0.3) {
     selectedSeverity = severities[1]; // Info
-  } else if (randomSeverity < 0.8) {
+  } else if (randomSeverity < 0.4) {
     selectedSeverity = severities[2]; // Notice
-  } else if (randomSeverity < 0.9) {
+  } else if (randomSeverity < 0.5) {
     selectedSeverity = severities[3]; // Warning
-  } else if (randomSeverity < 0.95) {
+  } else if (randomSeverity < 0.6) {
     selectedSeverity = severities[4]; // ERROR
-  } else if (randomSeverity < 0.98) {
+  } else if (randomSeverity < 0.7) {
     selectedSeverity = severities[5]; // CRITICAL
-  } else if (randomSeverity < 0.995) {
+  } else if (randomSeverity < 0.8) {
     selectedSeverity = severities[6]; // ALERT
   } else {
     selectedSeverity = severities[7]; // EMERGENCY
