@@ -15,14 +15,15 @@ var log = bunyan.createLogger({
 });
 
 const severities = [
-  { severity: 100, message: "Debug" },
-  { severity: 200, message: "Info" },
-  { severity: 300, message: "Notice" },
-  { severity: 400, message: "Warning" },
-  { severity: 500, message: "ERROR" },
-  { severity: 600, message: "CRITICAL" },
-  { severity: 700, message: "ALERT" },
-  { severity: 800, message: "EMERGENCY" }
+  { severity: "DEFAULT", message: "Default" },
+  { severity: "DEBUG", message: "Debug" },
+  { severity: "INFO", message: "Info" },
+  { severity: "NOTICE", message: "Notice" },
+  { severity: "WARNING", message: "Warning" },
+  { severity: "ERROR", message: "ERROR" },
+  { severity: "CRITICAL", message: "CRITICAL" },
+  { severity: "ALERT", message: "ALERT" },
+  { severity: "EMERGENCY", message: "EMERGENCY" }
 ];
 
 function logMessage() {
