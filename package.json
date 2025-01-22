@@ -4,7 +4,8 @@
   "description": "Proof of concept for logging from Docker using Bunyan",
   "main": "src/index.ts",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "tsx src/index.ts"
   },
   "author": "",
   "license": "ISC",
