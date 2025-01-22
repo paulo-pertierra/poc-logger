@@ -1,0 +1,11 @@
+{
+  "name": "poc-logger",
+  "version": "0.0.1",
+  "description": "Proof of concept for logging from Docker using Bunyan",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "",
+  "license": "ISC"
+}
