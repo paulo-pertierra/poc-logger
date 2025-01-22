@@ -15,7 +15,6 @@ var log = bunyan.createLogger({
 });
 
 const severities = [
-  { severity: "DEFAULT", message: "Default" },
   { severity: "DEBUG", message: "Debug" },
   { severity: "INFO", message: "Info" },
   { severity: "NOTICE", message: "Notice" },
@@ -48,7 +47,7 @@ function logMessage() {
     selectedSeverity = severities[7]; // EMERGENCY
   }
 
-  log[selectedSeverity.severity >= 400 ? 'error' : 'info']({ severity: selectedSeverity.severity }, selectedSeverity.message);
+  log['info']({ severity: selectedSeverity.severity }, selectedSeverity.message);
 
   // Call logMessage again after a random interval between 2 and 5 seconds
   const randomInterval = Math.random() * (1000 - 500) + 2000;
