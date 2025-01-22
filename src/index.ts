@@ -1,5 +1,4 @@
 import bunyan from "bunyan";
-import bsyslog from "bunyan-syslog";
 
 var log = bunyan.createLogger({
   name: "poc-logger",
@@ -9,14 +8,8 @@ var log = bunyan.createLogger({
       stream: process.stdout
     },
     {
-      level: "debug",
-      type: "raw",
-      stream: bsyslog.createBunyanStream({
-        type: "sys",
-        facility: bsyslog.local0,
-        host: "127.0.0.1",
-        port: 514
-      })
+      level: "info",
+      path: "./poc-logger.log"
     }
   ]
 });

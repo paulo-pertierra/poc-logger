@@ -1,0 +1,3 @@
+{"name":"poc-logger","hostname":"zrn","pid":190327,"level":50,"severity":600,"msg":"CRITICAL","time":"2025-01-22T05:45:21.832Z","v":0}
+{"name":"poc-logger","hostname":"zrn","pid":190327,"level":30,"severity":100,"msg":"Debug","time":"2025-01-22T05:45:24.184Z","v":0}
+{"name":"poc-logger","hostname":"zrn","pid":190327,"level":30,"severity":300,"msg":"Notice","time":"2025-01-22T05:45:26.444Z","v":0}
