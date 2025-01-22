@@ -1,7 +1,24 @@
 import bunyan from "bunyan";
+import bsyslog from "bunyan-syslog";
 
 var log = bunyan.createLogger({
-  name: "poc-logger"
+  name: "poc-logger",
+  streams: [
+    {
+      level: "debug",
+      stream: process.stdout
+    },
+    {
+      level: "debug",
+      type: "raw",
+      stream: bsyslog.createBunyanStream({
+        type: "sys",
+        facility: bsyslog.local0,
+        host: "127.0.0.1",
+        port: 514
+      })
+    }
+  ]
 });
 
 const severities = [

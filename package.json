@@ -11,10 +11,12 @@
   "license": "ISC",
   "dependencies": {
     "bunyan": "^1.8.15",
+    "bunyan-syslog": "^0.3.4",
     "tsx": "^4.19.2"
   },
   "devDependencies": {
     "@types/bunyan": "^1.8.11",
+    "@types/bunyan-syslog": "^0.3.3",
     "typescript": "^5.7.3"
   },
   "type": "module"
