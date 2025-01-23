@@ -5,11 +5,28 @@ var log = bunyan.createLogger({
   streams: [
     {
       level: "debug",
-      stream: process.stdout
+      stream: {
+        writable: true,
+        write: (log: any) => {
+          const logObject = JSON.parse(log);
+          logObject.message = logObject.msg;
+          logObject.msg = undefined;
+          return process.stdout.write(JSON.stringify(logObject) + '\n');
+        }
+      },
     },
     {
       level: "info",
-      path: "./poc-logger.log"
+      path: "./poc-logger.log",
+      stream: {
+        writable: true,
+        write: (log: any) => {
+          const logObject = JSON.parse(log);
+          logObject.message = logObject.msg;
+          logObject.msg = undefined;
+          return process.stdout.write(JSON.stringify(logObject) + '\n');
+        }
+      },
     }
   ]
 });
@@ -52,7 +69,28 @@ function logMessage() {
   // Call logMessage again after a random interval between 2 and 5 seconds
   const randomInterval = Math.random() * (1000 - 500) + 2000;
   setTimeout(logMessage, randomInterval);
+
+  log.warn({ severity: "Any", customKey: "asdfasdf" }, "Message");
 }
+
+function bunyanWrapper() {
+  function warn() {
+
+  }
+  function info() {
+
+  }
+  function error() {
+
+  }
+  return {
+    warn,
+    error,
+    info
+  }
+}
+
+bunyanWrapper().warn();
 
 // Start the logging process
 logMessage();
