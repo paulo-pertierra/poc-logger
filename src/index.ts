@@ -1,5 +1,14 @@
 import bunyan from "bunyan";
 
+const severities: Record<number, string> = {
+  10: "trace",
+  20: "debug",
+  30: "info",
+  40: "warn",
+  50: "error",
+  60: "fatal",
+};
+
 export const log = bunyan.createLogger({
   name: "poc-logger",
   streams: [
@@ -9,40 +18,24 @@ export const log = bunyan.createLogger({
         writable: true,
         write: (log: any) => {
           const logObject = JSON.parse(log);
-          // logObject.message = logObject.msg;
-          // logObject.msg = undefined;
 
-          const severities: Record<number, string> = {
-            10: "trace",
-            20: "debug",
-            30: "info",
-            40: "warn",
-            50: "error",
-            60: "fatal",
-          };
-          
+          // Swap out log levels
+          const level = logObject.level;
+          logObject.level = severities[level] || level;
+
+          const output = Buffer.from(JSON.stringify(logObject) + "\n");
+
           if (logObject.level >= 50) {
-            logObject.level = severities[logObject.level] || logObject.level;
-            process.stderr.write(JSON.stringify(logObject) + '\n');
+            process.stderr.write(output);
           }
           else {
-            logObject.level = severities[logObject.level] || logObject.level;
-            process.stdout.write(JSON.stringify(logObject) + '\n');
+            process.stdout.write(output);
           }
         }
       },
     }
   ]
 });
-
-const severities = [
-  { severity: "TRACE", message: "Trace" },
-  { severity: "DEBUG", message: "Debug" },
-  { severity: "INFO", message: "Info" },
-  { severity: "WARNING", message: "Warning" },
-  { severity: "ERROR", message: "Error" },
-  { severity: "FATAL", message: "Fatal" }
-];
 
 function logMessage() {
   const randomSeverity = Math.random();
