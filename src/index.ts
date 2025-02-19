@@ -1,34 +1,34 @@
 import bunyan from "bunyan";
-import fs from "fs";
 
-var log = bunyan.createLogger({
+export const log = bunyan.createLogger({
   name: "poc-logger",
   streams: [
     {
-      level: "debug",
+      level: "trace",
       stream: {
         writable: true,
         write: (log: any) => {
           const logObject = JSON.parse(log);
-          logObject.message = logObject.msg;
-          logObject.msg = undefined;
-          return process.stdout.write(JSON.stringify(logObject) + '\n');
-        }
-      },
-    },
-    {
-      level: "info",
-      path: "./poc-logger.log",
-      stream: {
-        writable: true,
-        write: (log: any) => {
-          const logObject = JSON.parse(log);
-          logObject.message = logObject.msg;
-          logObject.msg = undefined;
+          // logObject.message = logObject.msg;
+          // logObject.msg = undefined;
 
-          const fileStream = fs.createWriteStream('./poc-logger.log', { flags: 'a' });
-          fileStream.write(JSON.stringify(logObject) + '\n');
-          fileStream.end();
+          const severities: Record<number, string> = {
+            10: "trace",
+            20: "debug",
+            30: "info",
+            40: "warn",
+            50: "error",
+            60: "fatal",
+          };
+          
+          if (logObject.level >= 50) {
+            logObject.level = severities[logObject.level] || logObject.level;
+            process.stderr.write(JSON.stringify(logObject) + '\n');
+          }
+          else {
+            logObject.level = severities[logObject.level] || logObject.level;
+            process.stdout.write(JSON.stringify(logObject) + '\n');
+          }
         }
       },
     }
@@ -36,14 +36,12 @@ var log = bunyan.createLogger({
 });
 
 const severities = [
+  { severity: "TRACE", message: "Trace" },
   { severity: "DEBUG", message: "Debug" },
   { severity: "INFO", message: "Info" },
-  { severity: "NOTICE", message: "Notice" },
   { severity: "WARNING", message: "Warning" },
-  { severity: "ERROR", message: "ERROR" },
-  { severity: "CRITICAL", message: "CRITICAL" },
-  { severity: "ALERT", message: "ALERT" },
-  { severity: "EMERGENCY", message: "EMERGENCY" }
+  { severity: "ERROR", message: "Error" },
+  { severity: "FATAL", message: "Fatal" }
 ];
 
 function logMessage() {
@@ -51,49 +49,29 @@ function logMessage() {
   let selectedSeverity;
 
   if (randomSeverity < 0.2) {
-    selectedSeverity = severities[0]; // Debug
-  } else if (randomSeverity < 0.3) {
-    selectedSeverity = severities[1]; // Info
+    selectedSeverity = severities[0]; // Trace
+    log.trace("Database processed 14 records.")
   } else if (randomSeverity < 0.4) {
-    selectedSeverity = severities[2]; // Notice
-  } else if (randomSeverity < 0.5) {
-    selectedSeverity = severities[3]; // Warning
+    selectedSeverity = severities[1]; // Debug
+    log.debug("14 records processed valid, 0 records processed invalid.")
   } else if (randomSeverity < 0.6) {
-    selectedSeverity = severities[4]; // ERROR
-  } else if (randomSeverity < 0.7) {
-    selectedSeverity = severities[5]; // CRITICAL
+    selectedSeverity = severities[2]; // Info
+    log.info("Initiating scheduled job: clean up cache")
   } else if (randomSeverity < 0.8) {
-    selectedSeverity = severities[6]; // ALERT
+    selectedSeverity = severities[3]; // Warning
+    log.warn("17 records were not processed in 15 minutes.")
+  } else if (randomSeverity < 0.9) {
+    selectedSeverity = severities[4]; // Error
+    log.error("1 record not processed due to errors on request payload.")
   } else {
-    selectedSeverity = severities[7]; // EMERGENCY
+    selectedSeverity = severities[5]; // Fatal
+    log.fatal("Database connection dropped.")
+    // Call logMessage again after a random interval between 2 and 5 seconds
   }
 
-  log['info']({ severity: selectedSeverity.severity }, selectedSeverity.message);
-
-  // Call logMessage again after a random interval between 2 and 5 seconds
   const randomInterval = Math.random() * (1000 - 500) + 2000;
   setTimeout(logMessage, randomInterval);
 }
-
-function bunyanWrapper() {
-  function warn() {
-
-  }
-  function info() {
-
-  }
-  function error() {
-
-  }
-  return {
-    warn,
-    error,
-    info
-  }
-}
-
-bunyanWrapper().warn();
-
 // Start the logging process
 logMessage();
 
